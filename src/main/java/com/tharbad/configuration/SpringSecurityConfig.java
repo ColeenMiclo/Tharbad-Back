@@ -3,9 +3,12 @@ package com.tharbad.configuration;
 import org.springframework.security.core.userdetails.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +21,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SpringSecurityConfig {
     private static final Logger log = LoggerFactory.getLogger(SpringSecurityConfig.class); //Logger pour enregistrer les messages de débogage
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService; //Injection de la dépendance CustomUserDetailsService
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { //Methode qui permet de configurer la chaine de filtres de sécurité | HttpSecurity est une classe qui permet de configurer la sécurité  liée aux requetes HTTP
@@ -46,5 +52,13 @@ public class SpringSecurityConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); //Création d'un encodeur de mot de passe BCrypt
+    }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
+      AuthenticationManagerBuilder authenticationManagerBuilder = http
+        .getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        return authenticationManagerBuilder.build(); //Création d'un gestionnaire d'authentification
     }
 }
