@@ -10,5 +10,4 @@ public class TharbadApiApplication {
 		SpringApplication.run(TharbadApiApplication.class, args);
 		System.out.println("Tharbad API is running...");
 	}
-
 }
