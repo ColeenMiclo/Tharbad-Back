@@ -18,6 +18,10 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
 
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
     public String generateToken(Authentication authentication) {
         return Jwts.builder()
                 .setSubject(authentication.getName())
