@@ -1,5 +1,7 @@
 package com.tharbad.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,6 +57,6 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(authRequest.getPassword()));
         user.setRole("USER");
         userRepository.save(user);
-        return ResponseEntity.ok("Utilisateur enregistré avec succès");
+        return ResponseEntity.ok(Map.of("message", "Utilisateur enregistré avec succès"));
         }
     }
