@@ -40,8 +40,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/games/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/games/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

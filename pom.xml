@@ -70,21 +70,29 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Dependance Mockito -->
 		<dependency>
         	<groupId>org.mockito</groupId>
         	<artifactId>mockito-core</artifactId>
         	<version>4.8.0</version>
         	<scope>test</scope>
     	</dependency>
+		<!-- Dependance pour la gestion des JWT -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+		<!-- Dependances JAXB pour pqrser les objets en JAVA -->
 		<dependency>
     		<groupId>javax.xml.bind</groupId>
     		<artifactId>jaxb-api</artifactId>
     		<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>2.3.1</version>
 		</dependency>
 	</dependencies>
 
