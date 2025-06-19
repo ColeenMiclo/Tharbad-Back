@@ -56,4 +56,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         chain.doFilter(request, response);
     }
+
+    private boolean isExcludedUri(String uri) {
+        return uri.startsWith("/api/auth/") || uri.startsWith("/api/games/");
+    }
 }
