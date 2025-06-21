@@ -1,13 +1,23 @@
 package com.tharbad.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BoardGameDto {
 
+    @JsonProperty("id")
     private Long gameId;
+
+    @JsonProperty("name")
     private String gameName;
+
+    @JsonProperty("description")
     private String gameDescription;
+
+    @JsonProperty("image")
     private String gameImage;
 
     // Getters and Setters
+
     public Long getId() {
         return gameId;  
     }
