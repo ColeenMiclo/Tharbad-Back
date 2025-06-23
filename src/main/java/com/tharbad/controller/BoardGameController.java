@@ -1,5 +1,7 @@
 package com.tharbad.controller;
 
+import java.util.List;
+
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +30,9 @@ public class BoardGameController {
             return ResponseEntity.ok(boardGameService.getGameById(id));
     }
 
+    @GetMapping("/hot")
+    public ResponseEntity<List<BoardGameDto>> getHotGames() {
+        return ResponseEntity.ok(boardGameService.getHotGames());
+    }
 
 }

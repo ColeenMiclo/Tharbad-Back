@@ -1,9 +1,13 @@
 package com.tharbad.service;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 // import javax.xml.bind.Element; // Removed incorrect import
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -47,6 +51,41 @@ public class BoardGameService {
             boardGameDto.setImage(gameImage);
 
             return boardGameDto;
+        } catch (Exception e) {
+            throw new RuntimeException("Ereur lors du parsing"+ e.getMessage(), e);
+        }
+    }
+
+    public List<BoardGameDto> getHotGames() {
+        String url = "https://www.boardgamegeek.com/xmlapi2/hot";
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        System.out.println("Response: " + response.getBody());
+
+        List<BoardGameDto> hotGames =new ArrayList<>();
+
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(response.getBody())));
+
+            NodeList items = document.getElementsByTagName("item");
+
+            for (int i = 0; i < 4; i++) {
+                Element item = (Element) items.item(i);
+
+                Long gameId = Long.parseLong(item.getAttribute("id"));
+                String gameName = ((Element) item.getElementsByTagName("name").item(0)).getAttribute("value");
+                String gameImage = ((Element) item.getElementsByTagName("thumbnail").item(0)).getAttribute("value");
+
+                BoardGameDto boardGameDto = new BoardGameDto();
+                boardGameDto.setId(gameId);
+                boardGameDto.setName(gameName);
+                boardGameDto.setImage(gameImage);
+
+                hotGames.add(boardGameDto);
+            }
+            return hotGames;
         } catch (Exception e) {
             throw new RuntimeException("Ereur lors du parsing"+ e.getMessage(), e);
         }
